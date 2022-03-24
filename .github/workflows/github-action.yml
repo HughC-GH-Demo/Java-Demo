@@ -1,9 +1,9 @@
-# replace .war with .jar or .ear if needed
+# replace .war with .jar or .ear if neededdd
 name: Whitesource Prioritize Java with Maven
 
 on:
   push:
-    branches: [ release* ]
+    branches: [ main ]
 
 jobs:
   build:
