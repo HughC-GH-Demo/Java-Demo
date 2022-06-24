@@ -1,6 +1,8 @@
 package org.t246osslab.easybuggy.vulnerabilities;
 
 import java.io.File;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -195,6 +197,12 @@ public class XEEandXXEServlet extends AbstractServlet {
         try {
             File file = new File(savePath + File.separator + fileName);
             SAXParserFactory spf = SAXParserFactory.newInstance();
+            try {
+                spf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            } catch (SAXNotSupportedException | SAXNotRecognizedException | ParserConfigurationException ex) {
+                throw new RuntimeException(
+                        "XML Parser Exception occurred, check for possible attack or misconfiguration");
+            }
             if ("/xee".equals(req.getServletPath())) {
                 customHandler.setInsert();
                 spf.setFeature("http://xml.org/sax/features/external-general-entities", false);
